@@ -16,7 +16,7 @@ export function DiscoverResults() {
     const load = async () => {
       setLoading(true);
       try {
-        const genre = searchParams.get("genre");
+        const genre = searchParams?.get("genre") ?? null;
         const url = new URL(`/api/tmdb/discover`, window.location.origin);
         url.searchParams.set("page", String(page));
         if (genre) url.searchParams.set("genre", genre);
@@ -35,7 +35,7 @@ export function DiscoverResults() {
     setMovies([]);
     setPage(1);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchParams.get("genre")]);
+  }, [searchParams?.get("genre")]);
 
   return (
     <div>

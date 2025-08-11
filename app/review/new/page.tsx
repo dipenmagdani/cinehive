@@ -28,7 +28,7 @@ export default function NewReviewPage() {
 
 function ReviewEditor() {
   const params = useSearchParams();
-  const movieTitle = params.get("movieTitle");
+  const movieTitle = params?.get("movieTitle") ?? null;
   const [rating, setRating] = useState(0);
   const [content, setContent] = useState("");
 

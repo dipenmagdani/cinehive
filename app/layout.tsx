@@ -22,15 +22,19 @@ export const metadata: Metadata = {
     "reviews",
     "critics",
   ],
+  icons: {
+    icon: "/app/assets/cinehive-logo.png",
+  },
   openGraph: {
     title: "CineHive - Your Modern Movie Review Platform",
     description:
       "Discover, review, and discuss your favorite movies on CineHive. Minimal, cinematic, and user-friendly.",
-    url: "https://cinehive.vercel.app", // Placeholder URL
+    url: "https://cinehive.dipen.live", // Placeholder URL
     siteName: "CineHive",
+
     images: [
       {
-        url: "/placeholder.svg?height=630&width=1200", // Placeholder image for Open Graph
+        url: "/app/assets/cinehive-logo.png", // Placeholder image for Open Graph
         width: 1200,
         height: 630,
         alt: "CineHive Logo",
@@ -44,10 +48,8 @@ export const metadata: Metadata = {
     title: "CineHive - Your Modern Movie Review Platform",
     description:
       "Discover, review, and discuss your favorite movies on CineHive. Minimal, cinematic, and user-friendly.",
-    images: ["/placeholder.svg?height=630&width=1200"],
-  },
-  generator: "v0.dev",
-};
+    images: ["/app/assets/cinehive-logo.png"],
+  }};
 
 export default function RootLayout({
   children,
@@ -55,7 +57,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en" className="dark" suppressHydrationWarning>
       <body className={cn(inter.className, "min-h-screen antialiased")}>
         <ThemeProvider
           attribute="class"
