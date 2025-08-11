@@ -1,51 +1,34 @@
 "use client";
 
 import { GridBackground } from "@/components/animated/grid-background";
+import { Loader } from "@/components/ui/loader";
 import { motion } from "framer-motion";
-import Logo from "@/app/assets/cinehive-logo.png";
 import Image from "next/image";
+import Logo from "@/app/assets/cinehive-logo.png";
+
 export default function ComingSoonPage() {
   return (
-    <div className="relative flex min-h-screen items-center justify-center" style={{ backgroundColor: "#0B0B0B" }}>
+    <div className="relative flex min-h-dvh items-center justify-center" style={{ backgroundColor: "#0B0B0B" }}>
       <GridBackground />
 
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
-        className="relative z-10 flex flex-col items-center gap-8 px-6 text-center max-w-5xl mx-auto"
+        transition={{ duration: 0.6, ease: "easeOut" }}
+        className="relative z-10 flex flex-col items-center gap-5 px-6 text-center"
       >
-        {/* Logo mark with enhanced glow */}
-        <motion.div 
-          className="relative"
-          initial={{ scale: 0.8, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 1, ease: "easeOut", delay: 0.2 }}
-        >
-          <motion.div 
-            className="absolute -inset-4 rounded-full blur-lg"
-            animate={{ 
-              background: [
-                "radial-gradient(ellipse_at_center,rgba(255,255,255,0.15),transparent_60%)",
-                "radial-gradient(ellipse_at_center,rgba(255,255,255,0.25),transparent_70%)",
-                "radial-gradient(ellipse_at_center,rgba(255,255,255,0.15),transparent_60%)"
-              ]
-            }}
-            transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-          />
+        {/* Logo mark */}
+        <div className="relative">
 
-          <Image src={Logo} alt="CineHive" width={200} height={200}  />
-        </motion.div>
+          <Image src={Logo} alt="CineHive" width={200} height={100} className="rounded-2xl" />
+        </div>
 
-        {/* Enhanced title with shimmer effect */}
+        {/* Gradient title */}
         <motion.h1
-          className="text-5xl font-extrabold tracking-tight sm:text-6xl md:text-7xl lg:text-8xl bg-clip-text text-transparent bg-gradient-to-r from-yellow-200 via-yellow-400 to-yellow-500"
-          initial={{ letterSpacing: "0.1em", scale: 0.9, opacity: 0 }}
-          animate={{ letterSpacing: "0.02em", scale: 1, opacity: 1 }}
-          transition={{ duration: 1.2, ease: "easeOut", delay: 0.4 }}
-          style={{
-            textShadow: "0 0 30px rgba(255,255,255,0.3), 0 0 60px rgba(255,255,255,0.1)"
-          }}
+          className="text-5xl font-extrabold tracking-tight sm:text-6xl md:text-7xl bg-clip-text text-transparent bg-gradient-to-r from-yellow-400 via-amber-300 to-yellow-400"
+          initial={{ letterSpacing: "0.06em", opacity: 0.9 }}
+          animate={{ letterSpacing: "0.015em", opacity: 1 }}
+          transition={{ duration: 0.9, ease: "easeOut" }}
         >
           CineHive
         </motion.h1>
@@ -144,5 +127,3 @@ export default function ComingSoonPage() {
     </div>
   );
 }
-
-

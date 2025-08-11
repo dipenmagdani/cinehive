@@ -13,10 +13,10 @@ type GridBackgroundProps = {
 
 function GridBackgroundComponent({
   baseColor = "#0B0B0B",
-  lineColor = "rgba(255,255,255,0.08)",
+  lineColor = "rgba(212,175,55,0.18)",
   minorStep = 26,
   majorStep = 120,
-  shimmerColor = "rgba(255,255,255,0.12)",
+  shimmerColor = "rgba(212,175,55,0.14)",
 }: GridBackgroundProps) {
   return (
     <div
@@ -24,9 +24,9 @@ function GridBackgroundComponent({
       aria-hidden
       style={{ backgroundColor: baseColor }}
     >
-      {/* Grid layers with subtle movement */}
-      <motion.div
-        className="absolute inset-0"
+      {/* Grid layers with CSS animation (more reliable than Framer Motion for background-position) */}
+      <div
+        className="absolute inset-0 animate-grid-drift"
         style={{
           backgroundImage: `
             repeating-linear-gradient(
@@ -44,157 +44,130 @@ function GridBackgroundComponent({
               transparent ${minorStep}px
             )
           `,
-          opacity: 0.3,
+          opacity: 0.25,
         }}
-        initial={{ backgroundPosition: "0px 0px, 0px 0px" }}
-        animate={{ backgroundPosition: [
-          "0px 0px, 0px 0px",
-          "0px 30px, 30px 0px",
-          "0px 0px, 0px 0px",
-        ]}}
-        transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
       />
 
       {/* Major grid accent lines */}
-      <motion.div
-        className="absolute inset-0"
+      <div
+        className="absolute inset-0 animate-grid-drift-slow"
         style={{
           backgroundImage: `
             repeating-linear-gradient(
               0deg,
-              rgba(255,255,255,0.15),
-              rgba(255,255,255,0.15) 2px,
+              rgba(212,175,55,0.42),
+              rgba(212,175,55,0.42) 2px,
               transparent 2px,
               transparent ${majorStep}px
             ),
             repeating-linear-gradient(
               90deg,
-              rgba(255,255,255,0.15),
-              rgba(255,255,255,0.15) 2px,
+              rgba(212,175,55,0.42),
+              rgba(212,175,55,0.42) 2px,
               transparent 2px,
               transparent ${majorStep}px
             )
           `,
-          opacity: 0.2,
+          opacity: 0.18,
         }}
-        initial={{ backgroundPosition: "0px 0px, 0px 0px" }}
-        animate={{ backgroundPosition: [
-          "0px 0px, 0px 0px",
-          "0px 50px, 50px 0px",
-          "0px 0px, 0px 0px",
-        ]}}
-        transition={{ duration: 32, repeat: Infinity, ease: "easeInOut" }}
       />
 
-      {/* Dark vignette overlays */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.02),rgba(0,0,0,0.8)_70%)]" />
-      <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(0,0,0,0.6),transparent_20%,transparent_80%,rgba(0,0,0,0.8))]" />
+      {/* Vignette overlays */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.07),transparent_60%)]" />
+      <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(0,0,0,0.45),transparent_20%,transparent_80%,rgba(0,0,0,0.55))]" />
 
-      {/* Enhanced center-origin radial shimmer pulses */}
+      {/* Center-origin radial shimmer pulses */}
+      <motion.div
+        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+        initial={{ scale: 0.15, opacity: 0 }}
+        animate={{ scale: [0.15, 1.0, 1.35], opacity: [0.0, 0.75, 0.0] }}
+        transition={{ duration: 3.0, repeat: Infinity, ease: "easeInOut" }}
+        style={{
+          width: "160vmax",
+          height: "160vmax",
+          background: `radial-gradient(circle, ${shimmerColor} 0%, rgba(212,175,55,0.35) 30%, transparent 65%)`,
+          filter: "blur(16px)",
+          borderRadius: "9999px",
+          pointerEvents: "none",
+        }}
+      />
       <motion.div
         className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
         initial={{ scale: 0.1, opacity: 0 }}
-        animate={{ 
-          scale: [0.1, 1.2, 1.5], 
-          opacity: [0, 0.8, 0] 
-        }}
-        transition={{ 
-          duration: 4, 
-          repeat: Infinity, 
-          ease: "easeInOut",
-          repeatDelay: 1
-        }}
+        animate={{ scale: [0.1, 0.9, 1.25], opacity: [0.0, 0.55, 0.0] }}
+        transition={{ duration: 3.0, repeat: Infinity, ease: "easeInOut", delay: 1.0 }}
         style={{
-          width: "200vmax",
-          height: "200vmax",
-          background: `radial-gradient(circle, ${shimmerColor} 0%, rgba(255,255,255,0.08) 25%, transparent 60%)`,
-          filter: "blur(20px)",
+          width: "160vmax",
+          height: "160vmax",
+          background: `radial-gradient(circle, ${shimmerColor} 0%, rgba(212,175,55,0.25) 28%, transparent 62%)`,
+          filter: "blur(24px)",
           borderRadius: "9999px",
-        }}
-      />
-      
-      {/* Secondary pulse wave */}
-      <motion.div
-        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
-        initial={{ scale: 0.05, opacity: 0 }}
-        animate={{ 
-          scale: [0.05, 1.0, 1.3], 
-          opacity: [0, 0.6, 0] 
-        }}
-        transition={{ 
-          duration: 4, 
-          repeat: Infinity, 
-          ease: "easeInOut",
-          delay: 2,
-          repeatDelay: 1
-        }}
-        style={{
-          width: "180vmax",
-          height: "180vmax",
-          background: `radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.04) 20%, transparent 55%)`,
-          filter: "blur(25px)",
-          borderRadius: "9999px",
+          pointerEvents: "none",
         }}
       />
 
-      {/* Expanding ring shimmer waves */}
+      {/* Pulsating ring shimmer waves */}
       <motion.div
         className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
-        initial={{ scale: 0.3, opacity: 0 }}
-        animate={{ 
-          scale: [0.3, 1.4], 
-          opacity: [0, 0.7, 0] 
-        }}
-        transition={{ 
-          duration: 3.5, 
-          repeat: Infinity, 
-          ease: "easeInOut" 
-        }}
+        initial={{ scale: 0.6, opacity: 0.0 }}
+        animate={{ scale: [0.6, 1.15], opacity: [0.0, 0.55, 0.0] }}
+        transition={{ duration: 2.6, repeat: Infinity, ease: "easeInOut" }}
         style={{
-          width: "150vmax",
-          height: "150vmax",
-          background: "radial-gradient(circle, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 40%, rgba(255,255,255,0.3) 48%, rgba(255,255,255,0) 56%, rgba(255,255,255,0) 100%)",
-          filter: "blur(8px)",
+          width: "130vmax",
+          height: "130vmax",
+          background:
+            "radial-gradient(circle, rgba(212,175,55,0.0) 0%, rgba(212,175,55,0.0) 45%, rgba(212,175,55,0.35) 52%, rgba(212,175,55,0.0) 60%, rgba(212,175,55,0.0) 100%)",
+          filter: "blur(10px)",
           borderRadius: "9999px",
           mixBlendMode: "screen",
         }}
       />
-      
-      {/* Secondary ring wave */}
       <motion.div
         className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
-        initial={{ scale: 0.2, opacity: 0 }}
-        animate={{ 
-          scale: [0.2, 1.2], 
-          opacity: [0, 0.5, 0] 
-        }}
-        transition={{ 
-          duration: 3.5, 
-          repeat: Infinity, 
-          ease: "easeInOut",
-          delay: 1.2
-        }}
+        initial={{ scale: 0.5, opacity: 0.0 }}
+        animate={{ scale: [0.5, 1.05], opacity: [0.0, 0.45, 0.0] }}
+        transition={{ duration: 2.6, repeat: Infinity, ease: "easeInOut", delay: 0.9 }}
         style={{
-          width: "130vmax",
-          height: "130vmax",
-          background: "radial-gradient(circle, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 35%, rgba(255,255,255,0.25) 44%, rgba(255,255,255,0) 52%, rgba(255,255,255,0) 100%)",
+          width: "120vmax",
+          height: "120vmax",
+          background:
+            "radial-gradient(circle, rgba(212,175,55,0.0) 0%, rgba(212,175,55,0.0) 40%, rgba(212,175,55,0.3) 48%, rgba(212,175,55,0.0) 58%, rgba(212,175,55,0.0) 100%)",
           filter: "blur(12px)",
           borderRadius: "9999px",
           mixBlendMode: "screen",
         }}
       />
 
-      {/* Slow rotating highlight */}
+      {/* Slow rotating highlight for continuous motion */}
       <motion.div
         className="absolute inset-0"
         initial={{ rotate: 0 }}
         animate={{ rotate: 360 }}
-        transition={{ duration: 50, repeat: Infinity, ease: "linear" }}
+        transition={{ duration: 42, repeat: Infinity, ease: "linear" }}
         style={{
-          background: "conic-gradient(from 0deg at 50% 50%, transparent 0deg, rgba(255,255,255,0.06) 20deg, transparent 60deg)",
+          background:
+            "conic-gradient(from 0deg at 50% 50%, transparent 0deg, rgba(212,175,55,0.12) 30deg, transparent 90deg)",
           mixBlendMode: "screen",
         }}
       />
+      
+      {/* CSS keyframes for grid animation */}
+      <style jsx>{`
+        @keyframes grid-drift {
+          0%, 100% { background-position: 0px 0px, 0px 0px; }
+          50% { background-position: 0px 40px, 40px 0px; }
+        }
+        @keyframes grid-drift-slow {
+          0%, 100% { background-position: 0px 0px, 0px 0px; }
+          50% { background-position: 0px 60px, 60px 0px; }
+        }
+        .animate-grid-drift {
+          animation: grid-drift 16s ease-in-out infinite;
+        }
+        .animate-grid-drift-slow {
+          animation: grid-drift-slow 28s ease-in-out infinite;
+        }
+      `}</style>
     </div>
   );
 }

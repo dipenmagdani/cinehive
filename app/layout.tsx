@@ -14,6 +14,11 @@ export const metadata: Metadata = {
   title: "CineHive - Your Modern Movie Review Platform",
   description:
     "Discover, review, and discuss your favorite movies on CineHive. Minimal, cinematic, and user-friendly.",
+  icons: {
+    icon: "/icon.svg",
+    shortcut: "/icon.svg",
+    apple: "/icon.svg",
+  },
   keywords: [
     "movie reviews",
     "film platform",
@@ -22,9 +27,7 @@ export const metadata: Metadata = {
     "reviews",
     "critics",
   ],
-  icons: {
-    icon: "/app/assets/cinehive-logo.png",
-  },
+
   openGraph: {
     title: "CineHive - Your Modern Movie Review Platform",
     description:
